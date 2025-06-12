@@ -1,0 +1,16 @@
+{
+    "name": "Hardhat Dev Container",
+    "build": {
+      "dockerfile": "Dockerfile"
+    },
+    "runArgs": ["--env-file","secrets.env"],
+    "customizations": {
+      "vscode": {
+        "settings": {},
+        "extensions": [
+          "nomicfoundation.hardhat-solidity",
+          "github.copilot"
+        ]
+      }
+    }
+  }
