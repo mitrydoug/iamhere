@@ -1,0 +1,15 @@
+{
+    "name": "Hardhat Dev Container",
+    "build": {
+      "dockerfile": "Dockerfile"
+    }, 
+    "customizations": {
+      "vscode": {
+        "settings": {},
+        "extensions": [
+          "nomicfoundation.hardhat-solidity",
+          "github.copilot"
+        ]
+      }
+    }
+  }
