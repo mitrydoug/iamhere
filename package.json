@@ -1,0 +1,23 @@
+{
+  "name": "iamhere",
+  "version": "0.0.1",
+  "description": "DApp for recording personhood by nationality",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mitrydoug/iamhere.git"
+  },
+  "author": "Mitchell Douglass",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mitrydoug/iamhere/issues"
+  },
+  "homepage": "https://github.com/mitrydoug/iamhere#readme",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.24.3"
+  }
+}
