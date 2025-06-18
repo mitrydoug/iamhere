@@ -71,11 +71,14 @@ interface IZKPassportVerifier {
   function verifyScopes(bytes32[] calldata publicInputs, string calldata domain, string calldata scope) external view returns (bool);
 }
 
-contract YourContract {
+contract IAmHere {
     IZKPassportVerifier public zkPassportVerifier;
 
     // Map users to their verified unique identifiers
     mapping(address => bytes32) public userIdentifiers;
+
+    // Map nationalities to a list of accounted persons
+    mapping(string => uint32) public accountedPersons;
 
     constructor(address _verifierAddress) {
         zkPassportVerifier = IZKPassportVerifier(_verifierAddress);
@@ -85,25 +88,14 @@ contract YourContract {
         // Verify the proof
         (bool verified, bytes32 uniqueIdentifier) = zkPassportVerifier.verifyProof(params);
         require(verified, "Proof is invalid");
-
+        require(userIdentifiers[msg.sender] == bytes32(0), "Already accounted for");
+        
         // Check the proof was generated using your domain name (scope) and the subscope
         // you specified
         require(
-          zkPassportVerifier.verifyScopes(params.publicInputs, "your-domain.com", "my-scope"),
+          zkPassportVerifier.verifyScopes(params.publicInputs, "mitrydoug.github.io", "iamhere"),
           "Invalid scope"
         );
-
-        // Get the age condition checked in the proof
-        (uint256 currentDate, uint8 minAge, uint8 maxAge) = zkPassportVerifier.getAgeProofInputs(
-          params.committedInputs,
-          params.committedInputCounts
-        );
-        // Make sure the date used for the proof makes sense
-        require(block.timestamp >= currentDate, "Date used in proof is in the future");
-        // This is the condition for checking the age is 18 or above
-        // Max age is set to 0 and therefore ignored in the proof, so it's equivalent to no upper limit
-        // Min age is set to 18, so the user needs to be at least 18 years old
-        require(minAge == 18 && maxAge == 0, "User needs to be above 18");
 
         // Get the disclosed bytes of data from the proof
         (, bytes memory disclosedBytes) = zkPassportVerifier.getDiscloseProofInputs(
@@ -113,11 +105,10 @@ contract YourContract {
         // Get the nationality from the disclosed data and ignore the rest
         // Passing the disclosed bytes returned by the previous function
         // this function will format it for you so you can use the data you need
-        (, , string memory nationality, , , , , ) = zkPassportVerifier.getDisclosedData(
+        ( , , string memory nationality, , , , , ) = zkPassportVerifier.getDisclosedData(
           disclosedBytes,
           isIDCard
         );
-
 
         // Get the raw data bound to the proof
         // This is the data you bound to the proof using the bind method in the query builder
@@ -127,21 +118,16 @@ contract YourContract {
         );
         // Use the getBoundData function to get the formatted data
         // which includes the user's address and any custom data
-        (address userAddress, ) = zkPassportVerifier.getBoundData(data);
+        (address userAddress, string memory customData) = zkPassportVerifier.getBoundData(data);
         // Make sure the user's address is the one that is calling the contract
         require(userAddress == msg.sender, "Not the expected sender");
         // If you didn't specify any custom data, make sure the string is empty
-        // require(bytes(customData).length == 0, "Custom data should be empty");
+        require(bytes(customData).length == 0, "Custom data should be empty");
 
         // Store the unique identifier
         userIdentifiers[msg.sender] = uniqueIdentifier;
+        accountedPersons[nationality] += 1;
 
         return uniqueIdentifier;
-    }
-
-    // Your contract functionality using the verification
-    function restrictedFunction() public view {
-        require(userIdentifiers[msg.sender] != bytes32(0), "Not verified");
-        // Function logic for verified users
     }
 }
