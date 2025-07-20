@@ -1,0 +1,11 @@
+{
+  "name": "iamhere-frontend",
+  "version": "0.0.0",
+  "description": "React app for IAmHere smart contract",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mitchell Douglass",
+  "license": "MIT"
+}
