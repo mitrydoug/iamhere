@@ -4,8 +4,24 @@
   "description": "React app for IAmHere smart contract",
   "main": "index.js",
   "scripts": {
+    "dev": "vite",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Mitchell Douglass",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@types/qrcode.react": "^1.0.5",
+    "@zkpassport/sdk": "^0.6.0",
+    "d3-scale": "^4.0.2",
+    "d3-scale-chromatic": "^3.1.0",
+    "qrcode.react": "^4.2.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-globe.gl": "^2.34.0",
+    "react-router-dom": "^7.7.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.7.0",
+    "vite": "^7.0.5"
+  }
 }

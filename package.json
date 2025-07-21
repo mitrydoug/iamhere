@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/mitrydoug/iamhere#readme",
   "devDependencies": {
+    "@nomicfoundation/hardhat-ignition-ethers": "^0.15.14",
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@zkpassport/sdk": "^0.6.0",
     "hardhat": "^2.24.3"
   }
 }
