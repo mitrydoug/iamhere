@@ -8,6 +8,14 @@ const MyGlobe = () => {
 
     const [countries, setCountries] = useState({ features: []});
     const [hoverD, setHoverD] = useState();
+    const [windowSize, setWindowSize] = useState({ width: window.innerWidth, height: window.innerHeight });
+
+    useEffect(() => {
+      const handleResize = () => {
+        setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+      };
+      window.addEventListener('resize', handleResize);
+    }, []);
 
     useEffect(() => {
       // load data
@@ -25,20 +33,24 @@ const MyGlobe = () => {
     );
     colorScale.domain([0, maxVal]);
 
-    return <Globe
-      globeImageUrl="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIj4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iI2UzZjJmYSIvPgo8L3N2Zz4="
-      backgroundColor='#CCCCCC'
-      lineHoverPrecision={0}
+    return (
+      <Globe
+        width={windowSize.width}
+        height={windowSize.height}
+        globeImageUrl="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIj4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iI2UzZjJmYSIvPgo8L3N2Zz4="
+        backgroundColor='#FEFEFE'
+        lineHoverPrecision={0}
 
-      polygonsData={countries.features.filter(d => d.properties.ISO_A2 !== 'AQ')}
-      polygonCapColor={d => d === hoverD ? 'steelblue' : 'white'}
-      polygonSideColor={() => "white" }
-      polygonStrokeColor={ () => "#111111" }
-      polygonLabel={({ properties: d }) => <div>
-        <div><b>{d.ADMIN} ({d.ISO_A2})</b></div>
-      </div>}
-      onPolygonHover={setHoverD}
-    />;
+        polygonsData={countries.features.filter(d => d.properties.ISO_A2 !== 'AQ')}
+        polygonCapColor={d => d === hoverD ? 'steelblue' : 'white'}
+        polygonSideColor={() => "#e3f2fa" }
+        polygonStrokeColor={ () => "#111111" }
+        polygonLabel={({ properties: d }) => <div>
+          <div><b>{d.ADMIN} ({d.ISO_A2})</b></div>
+        </div>}
+        onPolygonHover={setHoverD}
+      /> 
+    );
 }
 
 export default MyGlobe;

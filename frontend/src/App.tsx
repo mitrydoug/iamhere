@@ -3,9 +3,12 @@ import { QRCodeSVG } from "qrcode.react";
 import { ZKPassport } from "@zkpassport/sdk";
 import MyGlobe from './Globe';
 
+const MY_DOMAIN = "w3schools.com";
+const MY_ICON_URL = "https://www.w3schools.com/favicon.ico";
+
 async function verifyOnChain(proofResult, walletProvider, isIDCard) {
 
-  const zkPassport = new ZKPassport("your-domain.com");
+  const zkPassport = new ZKPassport(MY_DOMAIN);
 
   // Get verification parameters
   const verifierParams = zkPassport.getSolidityVerifierParameters({
@@ -50,7 +53,7 @@ export default function App() {
 
     const [url, setUrl] = useState<string | null>(null);
 
-    const zkPassport = useMemo(() => new ZKPassport("https://mitrydoug.github.io/iknewthat/"), []);
+    const zkPassport = useMemo(() => new ZKPassport(MY_DOMAIN), []);
 
     useEffect(() => {
 
@@ -60,7 +63,7 @@ export default function App() {
                 name: "I Am Here",
                 // A description of the purpose of the request
                 purpose: "Roll call",
-                logo: "https://mitrydoug.github.io/iknewthat/iKnewThatFav.svg",
+                logo: MY_ICON_URL,
                 // Optional scope for the user's unique identifier
                 scope: "iamhere",
                 // To verify proofs on EVM chains, you need to set the mode to "compressed-evm"
@@ -89,6 +92,7 @@ export default function App() {
             let proof: ProofResult;
             // Use the proofResult from the onProofGenerated callback to get the proof
             onProofGenerated((proofResult) => {
+                console.log("Proof generated:", proofResult);
                 proof = proofResult;
             });
 
@@ -97,6 +101,8 @@ export default function App() {
                 verified,
                 result,
             }) => {
+                console.log("Result received:", uniqueIdentifier, verified, result);
+                return;
                 if (!verified) {
                 // If the proof is not verified, save yourself some gas and return straight away
                 console.log("Proof is not verified");
@@ -105,11 +111,11 @@ export default function App() {
 
                 // Get the verification parameters
                 const verifierParams = zkPassport.getSolidityVerifierParameters({
-                proof: proof,
-                // Use the same scope as the one you specified with the request function
-                scope: "my-scope",
-                // Enable dev mode if you want to use mock passports, otherwise keep it false
-                devMode: false,
+                    proof: proof,
+                    // Use the same scope as the one you specified with the request function
+                    scope: "my-scope",
+                    // Enable dev mode if you want to use mock passports, otherwise keep it false
+                    devMode: false,
                 });
 
                 // Get the wallet provider
@@ -151,23 +157,23 @@ export default function App() {
     if (!url) {
         return <div><h3>Loading...</h3></div>;
     } else {
-        /*return (
-            <div id="root">
-                <h3>Verify that you are over 18!</h3>
-                <QRCodeSVG value={url} size={256} level="L"/>
-            </div>
-        );*/
         return (
-            <div id="root">
-                <MyGlobe />
-                <div style={{ position: "absolute", zIndex: 2, top: "40px", left: "40px"}}>
+            <>
+                <div style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
+                    <h1 id="size-title">✋ I Am Here! </h1>
+                    <div style={{ position: "fixed", zIndex: -1, top: 0, left: 0 }}>
+                        <MyGlobe />
+                    </div>
+                </div>
+                {/*
+                <div style={{ position: "absolute", zIndex: 2, top: "40px", right: "40px", "alignItems": "center", display: "flex", flexDirection: "column" }}>
                     <h3>Get on the list!</h3>
                     <div style={{ padding: "10px", backgroundColor: "white", borderRadius: "8px" }}>
                         <QRCodeSVG value={url} size={256} level="L"/>
                     </div>
-                    
                 </div>
-            </div>
+                */}
+            </>
         );
     }
 }
