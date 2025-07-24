@@ -12,6 +12,7 @@
   "dependencies": {
     "@types/qrcode.react": "^1.0.5",
     "@zkpassport/sdk": "^0.6.0",
+    "antd": "^5.26.6",
     "d3-scale": "^4.0.2",
     "d3-scale-chromatic": "^3.1.0",
     "qrcode.react": "^4.2.0",

@@ -3,12 +3,16 @@ import { QRCodeSVG } from "qrcode.react";
 import { ZKPassport } from "@zkpassport/sdk";
 import MyGlobe from './Globe';
 
-const MY_DOMAIN = "w3schools.com";
-const MY_ICON_URL = "https://www.w3schools.com/favicon.ico";
+import { Button, Layout, Typography } from 'antd';
+const { Content, Footer, Header } = Layout;
+const { Title } = Typography;
 
-async function verifyOnChain(proofResult, walletProvider, isIDCard) {
+const MY_DOMAIN = "http://localhost/";
+const MY_ICON_URL = "http://127.0.0.1:5173/iamhere-favicon.svg";
 
-  const zkPassport = new ZKPassport(MY_DOMAIN);
+/*async function verifyOnChain(proofResult, walletProvider, isIDCard) {
+
+  const zkPassport = new ZKPassport();
 
   // Get verification parameters
   const verifierParams = zkPassport.getSolidityVerifierParameters({
@@ -47,13 +51,13 @@ async function verifyOnChain(proofResult, walletProvider, isIDCard) {
   await publicClient.waitForTransactionReceipt({ hash });
 
   console.log("Verification completed on-chain!");
-}
+}*/
 
 export default function App() {
 
     const [url, setUrl] = useState<string | null>(null);
 
-    const zkPassport = useMemo(() => new ZKPassport(MY_DOMAIN), []);
+    const zkPassport = useMemo(() => new ZKPassport(), []);
 
     useEffect(() => {
 
@@ -82,12 +86,12 @@ export default function App() {
                 onReject,
                 onError,
             } = queryBuilder
-            // Verify the user's age is greater than or equal to 18
-            .gte("age", 18)
-            // Bind to the chain where the proof will be verified
-            .bind("chain", "ethereum_sepolia")
-            // Finalize the query
-            .done();
+                // Verify the user's age is greater than or equal to 18
+                .gte("age", 18)
+                // Bind to the chain where the proof will be verified
+                .bind("chain", "ethereum_sepolia")
+                // Finalize the query
+                .done();
 
             let proof: ProofResult;
             // Use the proofResult from the onProofGenerated callback to get the proof
@@ -104,9 +108,9 @@ export default function App() {
                 console.log("Result received:", uniqueIdentifier, verified, result);
                 return;
                 if (!verified) {
-                // If the proof is not verified, save yourself some gas and return straight away
-                console.log("Proof is not verified");
-                return;
+                    // If the proof is not verified, save yourself some gas and return straight away
+                    console.log("Proof is not verified");
+                    return;
                 }
 
                 // Get the verification parameters
@@ -158,22 +162,24 @@ export default function App() {
         return <div><h3>Loading...</h3></div>;
     } else {
         return (
-            <>
-                <div style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
-                    <h1 id="size-title">✋ I Am Here! </h1>
-                    <div style={{ position: "fixed", zIndex: -1, top: 0, left: 0 }}>
-                        <MyGlobe />
-                    </div>
+            <Layout style={{ height: "100vh", zIndex: 1 }}>
+                <div style={{ height: "5rem", backgroundColor: "white", textAlign: "center", verticalAlign: "middle", padding: "0px 0px" }}>
+                    <Title style={{ margin: 0, marginTop: "20px" }}>✋ I Am Here!</Title>
+                    <Button style={{ marginLeft: "20px" }} type="primary">Press here</Button>
                 </div>
+                <Content style={{ backgroundColor: "white" }}>
+                    <MyGlobe />
+                </Content>
+                <Footer style={{ textAlign: "center", backgroundColor: "white", padding: "20px 0px" }}>Created my Mitchell Douglass</Footer>
                 {/*
-                <div style={{ position: "absolute", zIndex: 2, top: "40px", right: "40px", "alignItems": "center", display: "flex", flexDirection: "column" }}>
-                    <h3>Get on the list!</h3>
-                    <div style={{ padding: "10px", backgroundColor: "white", borderRadius: "8px" }}>
-                        <QRCodeSVG value={url} size={256} level="L"/>
+                    <div style={{ position: "absolute", zIndex: 2, top: "40px", right: "40px", "alignItems": "center", display: "flex", flexDirection: "column" }}>
+                        <h3>Get on the list!</h3>
+                        <div style={{ padding: "10px", backgroundColor: "white", borderRadius: "8px" }}>
+                            <QRCodeSVG value={url} size={256} level="L" />
+                        </div>
                     </div>
-                </div>
                 */}
-            </>
+            </Layout>
         );
     }
 }
