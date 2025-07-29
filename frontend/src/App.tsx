@@ -7,8 +7,7 @@ import { Button, Layout, Typography } from 'antd';
 const { Content, Footer, Header } = Layout;
 const { Title } = Typography;
 
-const MY_DOMAIN = "http://localhost/";
-const MY_ICON_URL = "http://127.0.0.1:5173/iamhere-favicon.svg";
+const MY_ICON_URL = "";
 
 /*async function verifyOnChain(proofResult, walletProvider, isIDCard) {
 
@@ -88,6 +87,7 @@ export default function App() {
             } = queryBuilder
                 // Verify the user's age is greater than or equal to 18
                 .gte("age", 18)
+                .disclose("nationality")
                 // Bind to the chain where the proof will be verified
                 .bind("chain", "ethereum_sepolia")
                 // Finalize the query
@@ -171,14 +171,14 @@ export default function App() {
                     <MyGlobe />
                 </Content>
                 <Footer style={{ textAlign: "center", backgroundColor: "white", padding: "20px 0px" }}>Created my Mitchell Douglass</Footer>
-                {/*
+                {
                     <div style={{ position: "absolute", zIndex: 2, top: "40px", right: "40px", "alignItems": "center", display: "flex", flexDirection: "column" }}>
                         <h3>Get on the list!</h3>
                         <div style={{ padding: "10px", backgroundColor: "white", borderRadius: "8px" }}>
                             <QRCodeSVG value={url} size={256} level="L" />
                         </div>
                     </div>
-                */}
+                }
             </Layout>
         );
     }
