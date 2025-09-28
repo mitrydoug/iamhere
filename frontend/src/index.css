@@ -1,0 +1,18 @@
+.scene-container {
+    width: 100% !important;
+    height: 100% !important;
+    position: static !important
+}
+
+body {
+    margin: 0;
+}
+
+#size-title {
+    font-family: Verdana, sans-serif;
+    font-weight: normal;
+}
+
+#header {
+    background-color: red;
+}
